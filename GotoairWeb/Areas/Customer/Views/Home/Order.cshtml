@@ -1,0 +1,136 @@
+﻿@model OrderVM
+
+<div class="container-fluid p-0 pt-3">
+    <div class="row">
+        <div class="col-12 col-lg-6 p-0 pe-1">
+            <div class="container-fluid">
+                <form method='post'>
+                    <input asp-for="@Model.Flight.Id" hidden/>
+                    <input asp-for="@Model.NumberOfFreeSSeats" hidden />
+                    <input asp-for="@Model.NumberOfFreeCSeats" hidden />
+                    <input asp-for="@Model.NumberOfFreeFSeats" hidden />
+                    <div class="card w-100">
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Заказ</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Пользователь</label>
+                                            <input asp-for="@Model.User.UserName" class="form-control mb-1" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Рейс</label>
+                                            <input asp-for="@Model.Flight.Route.Name" class="form-control mb-1" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="seatClass" value="S" checked id="r1">
+                                                <label class="form-check-label" for="r1">
+                                                    Эконом-класс (сводобно: @Model.NumberOfFreeSSeats)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="seatClass" value="C" id="r2">
+                                                <label class="form-check-label" for="r2">
+                                                    Бизнес-класс (сводобно: @Model.NumberOfFreeCSeats)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="seatClass" value="F" id="r3">
+                                                <label class="form-check-label" for="r3">
+                                                    Первый класс (сводобно: @Model.NumberOfFreeFSeats)
+                                                </label>
+                                            </div>
+                                            <label class="form-label">Номер места</label>
+                                            <input name="seatChoice" class="form-control mb-1" max="860" min="1"/>
+                                            <div asp-validation-summary="All" class="text-danger"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary form-control">Оформить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6 p-0 ps-1">
+
+            <div class="card w-100">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Доступные места</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Эконом-класс</h6>
+                    <div class="row mb-3">
+                        <div class="col-12 px-1 d-flex justify-content-start flex-wrap">
+                            @foreach(var number in Model.Flight.FreeSSeats)
+                            {
+                                <div class="px-2 py-1 text-center d-flex align-items-center" style="width:10%">
+                                    @if (number == 0)
+                                    {
+                                        <div class="flex-fill card rounded text-muted" style="background-color: #eceeef">@number.ToString()</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="flex-fill card rounded">@number.ToString()</div>
+                                    }
+                                </div>
+                                
+                            }
+                        </div>
+                    </div>
+                    <h6>Бизнес-класс</h6>
+                    <div class="row mb-3">
+                        <div class="col-12 px-1 d-flex justify-content-start flex-wrap">
+                            @foreach (var number in Model.Flight.FreeCSeats)
+                            {
+                                <div class="px-2 py-1 text-center d-flex align-items-center" style="width:10%">
+                                    @if (number == 0)
+                                    {
+                                        <div class="flex-fill card rounded text-muted" style="background-color: #eceeef">@number.ToString()</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="flex-fill card rounded">@number.ToString()</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <h6>Первый класс</h6>
+                    <div class="row mb-3">
+                        <div class="col-12 px-1 d-flex justify-content-start flex-wrap">
+                            @foreach (var number in Model.Flight.FreeFSeats)
+                            {
+                                <div class="px-2 py-1 text-center d-flex align-items-center" style="width:10%">
+                                    @if (number == 0)
+                                    {
+                                        <div class="flex-fill card rounded text-muted" style="background-color: #eceeef">@number.ToString()</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="flex-fill card rounded">@number.ToString()</div>
+                                    }
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

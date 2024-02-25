@@ -1,0 +1,179 @@
+﻿@model HomeVM
+
+<div class="container-fluid p-0 pt-3">
+    <div class="row">
+        <div class="col-8 p-0 pe-1">
+            <div class="container-fluid">
+                @foreach(var flight in Model.FlightList)
+                {
+                    <div class="row row-cols-1 mb-2">
+                        <div class="col p-0 card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-4 p-1 text-center">Самолёт</div>
+                                    <div class="col p-1 text-center">Отправление</div>
+                                    <div class="col p-1 text-center">Прибытие</div>
+                                    <div class="col-3 p-1 text-center">Стоимость</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4 p-1">
+                                        <h5 class="fw-bold">@flight.FlightHome.Airplane.SerialNumber</h5>
+                                        <h6>@flight.FlightHome.Airplane.AirplaneModel.Name</h6>
+                                        <p class="mt-2 text-muted">@flight.FlightHome.TypeOfTransportation.Name</p>
+                                    </div>
+                                    <div class="col p-1 text-center">
+                                        <h1 class="fw-bold">@flight.FlightHome.DateAndTimeStart.ToString("t")</h1>
+                                        <p>@flight.FlightHome.DateAndTimeStart.ToString("d")</p>
+                                    </div>
+                                    <div class="col p-1 text-center">
+
+                                        <h1 class="fw-bold">@flight.FlightHome.DateAndTimeEnd.ToString("t")</h1>
+                                        <p>@flight.FlightHome.DateAndTimeEnd.ToString("d")</p>
+                                    </div>
+                                    <div class="col-3 p-1">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="flex-fill d-flex">
+                                                <p>S</p>
+                                                <p class="mx-2">-</p>
+                                                <p class="text-decoration-underline">@flight.FlightHome.FreeSSeats.Count()</p>
+                                            </div>
+                                            <p>@flight.PriceS.ToString("C")</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div class="flex-fill d-flex">
+                                                <p>C</p>
+                                                <p class="mx-2">-</p>
+                                                <p class="text-decoration-underline">@flight.FlightHome.FreeCSeats.Count()</p>
+                                            </div>                                           
+                                            
+                                            <p>@flight.PriceC.ToString("C")</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div class="flex-fill d-flex">
+                                                <p>F</p>
+                                                <p class="mx-2">-</p>
+                                                <p class="text-decoration-underline">@flight.FlightHome.FreeFSeats.Count()</p>
+                                            </div>                                         
+                                            <p>@flight.PriceF.ToString("C")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="form-label m-0 p-1 col-2">Маршрут: </label>
+                                    <div class="col-10 p-1">
+                                        <input value="@(flight.FlightHome.Route.AddressFrom + " - " + flight.FlightHome.Route.AddressTo)" readonly class="form-control-plaintext p-0" />
+                                    </div>                                    
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-auto p-1">
+                                        @if ((User != null) && (User.IsInRole(SD.Role_Customer)))
+                                        {
+                                            <a href="/Customer/Home/Order?flightId=@(flight.FlightHome.Id)" class="btn btn-primary">Взять билет</a>
+                                        } 
+                                        else
+                                        {
+                                            <button class="btn btn-primary" disabled>Взять билет</button>
+                                        }
+                                    </div>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-4 p-0 ps-1">
+            <form method='post'>
+                <div class="card w-100">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Фильтры</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Место отправления</label>
+                                <select asp-for="RouteAddressFrom" asp-items="@Model.RouteListFrom" name="addressFrom" class="form-control form-select mb-1">
+                                    <option value="@null" selected>Все</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Место назначения</label>
+                                <select asp-for="RouteAddressTo" asp-items="@Model.RouteListTo" name="addressTo" class="form-control form-select mb-1">
+                                    <option value="@null" selected>Все</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label">Диапазон даты и времени отправления</label>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-12 -col-lg-6">
+                                        <input name="dateStart" asp-for="DateStart" class="form-control mb-1" min="@DateTime.Now" />
+                                    </div>
+                                    <div class="col-12 -col-lg-6">
+                                        <input name="dateEnd" asp-for="DateEnd" class="form-control mb-1" min="@DateTime.Now" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input name="cb1" asp-for="SClassChecker" class="form-check-input" type="checkbox" id="cb1" />
+                                    <label class="form-check-label" for="cb1">
+                                        Эконом-класс
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="cb2" asp-for="CClassChecker" class="form-check-input" type="checkbox" id="cb2" />
+                                    <label class="form-check-label" for="cb2">
+                                        Бизнес-класс
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="cb3" asp-for="FClassChecker" class="form-check-input" type="checkbox" id="cb3" />
+                                    <label class="form-check-label" for="cb3">
+                                        Первый класс
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label">Диапазон цены билета</label>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-12 col-lg-6">
+                                        <input name="priceMin" asp-for="PriceMin" type="number" class="form-control mb-1" min="0.00" step="0.01" />
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <input name="priceMax" asp-for="PriceMax" type="number" class="form-control mb-1" min="0.00" step="0.01" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary form-control">Поиск</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

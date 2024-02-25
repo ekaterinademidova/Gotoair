@@ -1,0 +1,23 @@
+﻿@model List<Flight>
+
+<div class="d-flex justify-content-between mb-4">
+    <h2 class="me-4">Список рейсов</h2>
+    <a asp-controller="Flight" asp-action="Upsert" class="btn btn-primary">Создать</a>
+</div>
+
+<table id="tblData" class="table table-bordered table-striped pt-4" style="width: 100%">
+    <thead>
+        <tr>
+            <th>Маршрут</th>
+            <th>Самолёт</th>
+            <th>Тип</th>
+            <th>Отправление</th>
+            <th>Прибытие</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script src="~/js/flight.js"></script>
+} 

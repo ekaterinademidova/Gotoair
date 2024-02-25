@@ -1,0 +1,70 @@
+﻿@model Route
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <h2 class="text-decoration-underline">@(Model.Id != 0 ? "Обновить" : "Создать") маршрут</h2>
+    </div>
+    <div class="row">
+        <form method="post" class="container-fluid">
+            <input asp-for="Id" hidden />
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control mb-1" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div> 
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="AddressFrom" class="form-label"></label>
+                    <input asp-for="AddressFrom" class="form-control mb-1" />
+                    <span asp-validation-for="AddressFrom" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="AddressTo" class="form-label"></label>
+                    <input asp-for="AddressTo" class="form-control mb-1" />
+                    <span asp-validation-for="AddressTo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control"> </textarea>
+                </div>
+            </div>
+            <div class="row justify-content-start">
+                <div class="col-4 col-md-3">
+                    @if (Model.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Обновить</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Создать</button>
+                    }
+                </div>
+                <div class="col-4 col-md-3">
+                    <a asp-controller="Route" asp-action="Index" class="btn btn-secondary form-control">Вернуться</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

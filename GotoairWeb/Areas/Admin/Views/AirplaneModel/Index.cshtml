@@ -1,0 +1,21 @@
+﻿@model List<AirplaneModel>
+
+<div class="d-flex justify-content-between mb-4">
+    <h2 class="me-4">Список моделей самолёта</h2>
+    <a asp-controller="AirplaneModel" asp-action="Upsert" class="btn btn-primary">Создать</a>
+</div>
+
+<table id="tblData" class="table table-bordered table-striped pt-4" style="width: 100%">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Компания</th>
+            <th>Тип дальности полёта</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script src="~/js/airplanemodel.js"></script>
+} 

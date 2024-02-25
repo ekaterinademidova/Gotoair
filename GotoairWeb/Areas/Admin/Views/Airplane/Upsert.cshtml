@@ -1,0 +1,88 @@
+﻿@model AirplaneVM
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <h2 class="text-decoration-underline">@(Model.Airplane.Id != 0 ? "Обновить" : "Создать") самолёт</h2>
+    </div>
+    <div class="row">
+        <form method="post" class="container-fluid">
+            <input asp-for="Airplane.Id" hidden />
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Airplane.SerialNumber" class="form-label"></label>
+                    <input asp-for="Airplane.SerialNumber" class="form-control mb-1" />
+                    <span asp-validation-for="Airplane.SerialNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Airplane.AirplaneModelId" class="form-label"></label>
+                    <select asp-for="@Model.Airplane.AirplaneModelId" asp-items="@Model.AirplaneModelList" class="form-control form-select mb-1">
+                        <option disabled selected>Выберите модель</option>
+                    </select>
+                    <span asp-validation-for="Airplane.AirplaneModelId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Airplane.DateOfManufacture" class="form-label"></label>
+                    @if (Model.Airplane.Id != 0)
+                    {
+                        <input asp-for="Airplane.DateOfManufacture" class="form-control mb-1" min="@(new DateTime(1700, 1, 1))" />
+                    }
+                    else
+                    {
+                        <input asp-for="Airplane.DateOfManufacture" class="form-control mb-1" value="@DateTime.Now" min="@(new DateTime(1700, 1, 1))" />
+                    }                   
+                    <span asp-validation-for="Airplane.DateOfManufacture" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Airplane.AirplaneStateId" class="form-label"></label>
+                    <select asp-for="@Model.Airplane.AirplaneStateId" asp-items="@Model.AirplaneStateList" class="form-control form-select  mb-1">
+                        <option disabled selected>Выберите состояние</option>
+                    </select>
+                    <span asp-validation-for="Airplane.AirplaneStateId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label asp-for="Airplane.Description" class="form-label"></label>
+                    <textarea asp-for="Airplane.Description" class="form-control"> </textarea>
+                </div>
+            </div>
+            <div class="row justify-content-start">
+                <div class="col-4 col-md-3">
+                    @if (Model.Airplane.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Обновить</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Создать</button>
+                    }                    
+                </div>
+                <div class="col-4 col-md-3">
+                    <a asp-controller="Airplane" asp-action="Index" class="btn btn-secondary form-control">Вернуться</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

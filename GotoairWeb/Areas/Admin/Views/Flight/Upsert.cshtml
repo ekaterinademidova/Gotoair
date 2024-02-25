@@ -1,0 +1,108 @@
+﻿@model FlightVM
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <h2 class="text-decoration-underline">@(Model.Flight.Id != 0 ? "Обновить" : "Создать") рейс</h2>
+    </div>
+    <div class="row">
+        <form method="post" class="container-fluid">
+            <input asp-for="Flight.Id" hidden />
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Flight.RouteId" class="form-label"></label>
+                    <select asp-for="@Model.Flight.RouteId" asp-items="@Model.RouteList" class="form-control form-select mb-1">
+                        <option disabled selected>Выберите маршрут</option>
+                    </select>
+                    <span asp-validation-for="Flight.RouteId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Flight.AirplaneId" class="form-label"></label>
+                    <select asp-for="@Model.Flight.AirplaneId" asp-items="@Model.AirplaneList" class="form-control form-select mb-1">
+                        <option disabled selected>Выберите самолёт</option>
+                    </select>
+                    <span asp-validation-for="Flight.AirplaneId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Flight.TypeOfTransportationId" class="form-label"></label>
+                    <select asp-for="@Model.Flight.TypeOfTransportationId" asp-items="@Model.TypeOfTransportationList" class="form-control form-select mb-1">
+                        <option disabled selected>Выберите тип</option>
+                    </select>
+                    <span asp-validation-for="Flight.TypeOfTransportationId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Flight.DateAndTimeStart" class="form-label"></label>
+                    <input asp-for="Flight.DateAndTimeStart" class="form-control mb-1" min="@DateTime.Now" />
+                    <span asp-validation-for="Flight.DateAndTimeStart" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="Flight.DateAndTimeEnd" class="form-label"></label>
+                    <input asp-for="Flight.DateAndTimeEnd" class="form-control mb-1" min="@DateTime.Now"  />
+                    <span asp-validation-for="Flight.DateAndTimeEnd" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="PriceS" class="form-label"></label>
+                    <input asp-for="PriceS" type="number" class="form-control mb-1" min="0.00" step="0.01" />
+                    <span asp-validation-for="PriceS" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="PriceC" class="form-label"></label>
+                    <input asp-for="PriceC" type="number" class="form-control mb-1" min="0.00" step="0.01" />
+                    <span asp-validation-for="PriceC" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label asp-for="PriceF" class="form-label"></label>
+                    <input asp-for="PriceF" type="number" class="form-control mb-1" min="0.00" step="0.01" />
+                    <span asp-validation-for="PriceF" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label asp-for="Flight.Description" class="form-label"></label>
+                    <textarea asp-for="Flight.Description" class="form-control"> </textarea>
+                </div>
+            </div>
+            <div class="row justify-content-start">
+                <div class="col-4 col-md-3">
+                    @if (Model.Flight.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Создать</button>
+                    }                    
+                </div>
+                <div class="col-4 col-md-3">
+                    <a asp-controller="Flight" asp-action="Index" class="btn btn-secondary form-control">Вернуться</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
